@@ -1,27 +1,41 @@
-import { useLocalSearchParams, useRouter } from "expo-router"; // Added useLocalSearchParams
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Modal,
   Pressable,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { addClassNote } from "../../backend/calls"; // Import your helper function
-import { styles } from "../../styles/authStyles/login.styles";
+import { addClassNote } from "../../backend/calls";
+import { styles } from "./createclass.styles";
 
 export default function AddClassScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams(); // Get the student ID from the URL/Navigation
+  const { id } = useLocalSearchParams();
 
-  // 1. Updated states for Class information
   const [instructor, setInstructor] = useState("");
   const [comments, setComments] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Custom Modal States
+  const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Check if user has typed anything
+  const isDirty = instructor.trim().length > 0 || comments.trim().length > 0;
+
+  const handleBackPress = () => {
+    if (isDirty) {
+      setShowDiscardModal(true);
+    } else {
+      router.push({ pathname: "/studentInfo", params: { id: id } });
+    }
+  };
+
   const handleCreateClass = async () => {
-    // Validation
     if (!instructor.trim() || !comments.trim()) {
       Alert.alert("Error", "Please fill in all fields");
       return;
@@ -29,39 +43,108 @@ export default function AddClassScreen() {
 
     setLoading(true);
     try {
-      // 2. Use your call function with the passed student ID
       await addClassNote(Number(id), instructor, comments);
 
-      // 3. Clear fields on success
+      // Clear fields and show custom success modal
       setInstructor("");
       setComments("");
-
-      Alert.alert("Success", "Class session recorded!", [
-        { text: "OK", onPress: () => router.back() },
-      ]);
+      setShowSuccessModal(true);
     } catch (error: any) {
+      console.error("Supabase Insert Error:", error);
       Alert.alert("Error", error.message || "Failed to save class");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
+    router.push({
+      pathname: "/studentInfo",
+      params: { id: id },
+    });
+  };
+
   return (
     <View style={styles.container}>
+      {/* CUSTOM DISCARD MODAL */}
+      <Modal visible={showDiscardModal} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Discard Changes?</Text>
+            <Text style={styles.modalText}>
+              You have started entering class details. Are you sure you want to
+              go back?
+            </Text>
+            <View style={styles.modalButtonRow}>
+              <Pressable
+                style={[styles.modalButton, styles.stayButton]}
+                onPress={() => setShowDiscardModal(false)}
+              >
+                <Text style={styles.stayButtonText}>Stay</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.modalButton, styles.discardButton]}
+                onPress={() => {
+                  setShowDiscardModal(false);
+                  router.push({ pathname: "/studentInfo", params: { id: id } });
+                }}
+              >
+                <Text style={styles.discardButtonText}>Discard</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* CUSTOM SUCCESS MODAL */}
+      <Modal visible={showSuccessModal} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Class Recorded!</Text>
+            <Text style={styles.modalText}>
+              The new session has been added to the student's history.
+            </Text>
+            <View style={styles.modalButtonRow}>
+              <Pressable
+                style={[
+                  styles.modalButton,
+                  { backgroundColor: "#4a90e2", width: "100%" },
+                ]}
+                onPress={handleSuccessClose}
+              >
+                <Text style={{ color: "#fff", fontWeight: "600" }}>Great</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <View style={styles.headerRow}>
+        <Pressable style={styles.backButton} onPress={handleBackPress}>
+          <Text style={styles.backButtonText}>←</Text>
+        </Pressable>
+        <Text style={styles.toptitle}>New Class</Text>
+      </View>
+
       <View style={styles.card}>
         <Text style={styles.title}>Record Class Session</Text>
 
         <TextInput
           style={styles.input}
           placeholder="Instructor Name"
+          placeholderTextColor="#8d9cc5"
           value={instructor}
           onChangeText={setInstructor}
-          autoFocus
         />
 
         <TextInput
-          style={[styles.input, { height: 100, textAlignVertical: "top" }]} // Added height for notes
+          style={[
+            styles.input,
+            { height: 120, textAlignVertical: "top", paddingTop: 12 },
+          ]}
           placeholder="Comments / Progress Notes"
+          placeholderTextColor="#8d9cc5"
           value={comments}
           onChangeText={setComments}
           multiline
@@ -75,12 +158,8 @@ export default function AddClassScreen() {
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>Save Session</Text>
+            <Text style={styles.buttonText}>Create Class</Text>
           )}
-        </Pressable>
-
-        <Pressable onPress={() => router.back()} style={{ marginTop: 15 }}>
-          <Text style={{ color: "#666", textAlign: "center" }}>Cancel</Text>
         </Pressable>
       </View>
     </View>

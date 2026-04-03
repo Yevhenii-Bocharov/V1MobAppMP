@@ -1,17 +1,30 @@
-import { Text, View } from "@/components/Themed";
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Pressable } from "react-native";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { getStudents } from "../../backend/calls";
-import { supabase } from "../../backend/supabase"; // FIX: Added import
+import { supabase } from "../../backend/supabase";
 import { styles } from "./index.styles";
 
 export default function TabOneScreen() {
   const [students, setStudents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
+  // Filter students based on search query
+  const filteredStudents = students.filter((student) =>
+    student.full_name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  // 1. Standard data fetcher
   const loadStudents = async () => {
     try {
       const data = await getStudents();
@@ -24,23 +37,23 @@ export default function TabOneScreen() {
     }
   };
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    loadStudents();
-  };
+  // 2. Refresh the list every time the user navigates back to this screen
+  useFocusEffect(
+    useCallback(() => {
+      loadStudents();
+    }, []),
+  );
 
+  // 3. Realtime Subscription (Needs "Replication" enabled in Supabase Dashboard)
   useEffect(() => {
-    loadStudents();
-
-    // REAL-TIME SUBSCRIPTION
     const subscription = supabase
-      .channel("schema-db-changes")
+      .channel("directory-sync")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "Students" }, // Ensure table name matches dashboard
+        { event: "*", schema: "public", table: "Students" },
         (payload) => {
-          console.log("Change received!", payload);
-          loadStudents();
+          console.log("Realtime Change detected:", payload);
+          loadStudents(); // Re-fetch data on any DB change
         },
       )
       .subscribe();
@@ -49,6 +62,11 @@ export default function TabOneScreen() {
       supabase.removeChannel(subscription);
     };
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    loadStudents();
+  };
 
   if (loading) {
     return (
@@ -60,7 +78,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      {/* HEADER SECTION using your styles.headerRow */}
+      {/* HEADER SECTION */}
       <View style={styles.headerRow}>
         <Text style={styles.title}>Directory</Text>
         <Pressable
@@ -71,12 +89,21 @@ export default function TabOneScreen() {
         </Pressable>
       </View>
 
+      {/* SEARCH BAR SECTION */}
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search students..."
+        placeholderTextColor="#8fa6d1"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       {/* LIST SECTION */}
       <FlatList
-        data={students}
+        data={filteredStudents}
         keyExtractor={(item) => item.id.toString()}
-        onRefresh={onRefresh} // Pull-to-refresh
-        refreshing={refreshing} // Loading state for pull-to-refresh
+        onRefresh={onRefresh}
+        refreshing={refreshing}
         contentContainerStyle={{ paddingBottom: 40 }}
         renderItem={({ item }) => (
           <Pressable
@@ -88,16 +115,26 @@ export default function TabOneScreen() {
               })
             }
           >
-            <Text style={styles.studentName}>{item.full_name}</Text>
-            <Text style={styles.studentSubtitle}>Tap to see classes →</Text>
+            <View style={{ flex: 1, backgroundColor: "transparent" }}>
+              <Text style={styles.studentName}>{item.full_name}</Text>
+              <Text style={styles.studentSubtitle}>Tap to see classes →</Text>
+            </View>
           </Pressable>
         )}
         ListEmptyComponent={
-          <Text
-            style={{ textAlign: "center", color: "#a0aec0", marginTop: 40 }}
+          <View
+            style={{
+              backgroundColor: "transparent",
+              alignItems: "center",
+              marginTop: 40,
+            }}
           >
-            No students found. Add some in Supabase!
-          </Text>
+            <Text style={{ color: "#a0aec0" }}>
+              {searchQuery
+                ? "No students found matching your search."
+                : "No students found. Add your first student!"}
+            </Text>
+          </View>
         }
       />
     </View>

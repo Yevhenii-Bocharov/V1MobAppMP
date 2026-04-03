@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -61,9 +62,11 @@ export default function LogInScreen() {
             style={styles.visibilityButton}
             onPress={() => setShowPassword(!showPassword)}
           >
-            <Text style={styles.visibilityIcon}>
-              {showPassword ? "👁️" : "•"}
-            </Text>
+            <MaterialCommunityIcons
+              name={showPassword ? "eye" : "eye-off"}
+              size={20}
+              color="#ffffff"
+            />
           </Pressable>
         </View>
 

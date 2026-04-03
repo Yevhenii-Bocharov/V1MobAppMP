@@ -27,21 +27,28 @@ export const getStudentClasses = async (studentId: number) => {
 
 // 3. Add a new class note
 
+// 3. Add a new class note
 export const addClassNote = async (
   studentId: number,
   instructor: string,
   note: string,
 ) => {
-  const { data, error } = await supabase.from("Classes").insert([
-    {
-      student_id: studentId,
-      instructor_name: instructor,
-      comments: note,
-      date: new Date().toISOString(),
-    },
-  ]);
+  const { data, error } = await supabase
+    .from("Classes")
+    .insert([
+      {
+        student_id: studentId,
+        instructor_name: instructor, // <-- DOUBLE CHECK THIS NAME IN SUPABASE
+        comments: note,
+        date: new Date().toISOString(),
+      },
+    ])
+    .select(); // Added .select() to ensure data is returned and confirmed
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase Error in addClassNote:", error.message);
+    throw error;
+  }
   return data;
 };
 
@@ -100,4 +107,36 @@ export const getClassById = async (classId: number) => {
     throw error;
   }
   return data;
+};
+
+export const updateClassById = async (
+  classId: number,
+  instructor: string,
+  note: string,
+) => {
+  const { data, error } = await supabase
+    .from("Classes")
+    .update({
+      instructor_name: instructor,
+      comments: note,
+      // You can add 'date: new Date().toISOString()' here
+      // if you want the "Edited" time to show up.
+    })
+    .eq("id", classId)
+    .select(); // Optional: returns the updated row data
+
+  if (error) {
+    console.error("Update Error:", error.message);
+    throw error;
+  }
+  return data;
+};
+
+export const deleteClassById = async (classId: number) => {
+  const { error } = await supabase.from("Classes").delete().eq("id", classId);
+
+  if (error) {
+    console.error("Delete Class Error:", error.message);
+    throw error;
+  }
 };

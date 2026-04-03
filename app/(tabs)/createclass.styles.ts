@@ -1,0 +1,138 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0b122d",
+    padding: 20,
+    paddingTop: 50,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    width: "100%",
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.08)",
+  },
+  backButtonText: {
+    fontSize: 22,
+    color: "#cccccc",
+    fontWeight: "700",
+    lineHeight: 22,
+  },
+  toptitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#ffffff",
+    marginLeft: 12,
+  },
+  card: {
+    backgroundColor: "#111a3a",
+    borderRadius: 16,
+    padding: 20,
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: "#ffffff",
+    marginBottom: 20,
+  },
+  input: {
+    width: "100%",
+    height: 48,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    marginBottom: 15,
+    backgroundColor: "#1a274a",
+    color: "#f3f8ff",
+    borderWidth: 1,
+    borderColor: "#2f466f",
+  },
+  button: {
+    marginTop: 10,
+    height: 52,
+    width: "100%",
+    backgroundColor: "#4a90e2",
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#ffffff",
+  },
+
+  //   MODAL
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#1a1a1a",
+  },
+  modalText: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  modalButtonRow: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  stayButton: {
+    backgroundColor: "#f0f0f0",
+  },
+  stayButtonText: {
+    color: "#333",
+    fontWeight: "600",
+  },
+  discardButton: {
+    backgroundColor: "#ff5252",
+  },
+  discardButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+});
