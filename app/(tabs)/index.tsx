@@ -1,3 +1,4 @@
+import CustomHeader from "@/components/CustomHeader";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -10,7 +11,7 @@ import {
 } from "react-native";
 import { getStudents } from "../../backend/calls";
 import { supabase } from "../../backend/supabase";
-import { styles } from "./index.styles";
+import { styles } from "../../styles/tabsStyles/index.styles";
 
 export default function TabOneScreen() {
   const [students, setStudents] = useState<any[]>([]);
@@ -77,66 +78,69 @@ export default function TabOneScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      {/* HEADER SECTION */}
-      <View style={styles.headerRow}>
-        <Text style={styles.title}>Directory</Text>
-        <Pressable
-          style={styles.addButton}
-          onPress={() => router.push("/createstudent")}
-        >
-          <Text style={styles.addButtonText}>+</Text>
-        </Pressable>
-      </View>
-
-      {/* SEARCH BAR SECTION */}
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search students..."
-        placeholderTextColor="#8fa6d1"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-
-      {/* LIST SECTION */}
-      <FlatList
-        data={filteredStudents}
-        keyExtractor={(item) => item.id.toString()}
-        onRefresh={onRefresh}
-        refreshing={refreshing}
-        contentContainerStyle={{ paddingBottom: 40 }}
-        renderItem={({ item }) => (
+    <>
+      <CustomHeader />
+      <View style={styles.container}>
+        {/* HEADER SECTION */}
+        <View style={styles.headerRow}>
+          <Text style={styles.title}>Directory</Text>
           <Pressable
-            style={styles.studentCard}
-            onPress={() =>
-              router.push({
-                pathname: "/studentInfo",
-                params: { id: item.id },
-              })
-            }
+            style={styles.addButton}
+            onPress={() => router.push("/createstudent")}
           >
-            <View style={{ flex: 1, backgroundColor: "transparent" }}>
-              <Text style={styles.studentName}>{item.full_name}</Text>
-              <Text style={styles.studentSubtitle}>Tap to see classes →</Text>
-            </View>
+            <Text style={styles.addButtonText}>+</Text>
           </Pressable>
-        )}
-        ListEmptyComponent={
-          <View
-            style={{
-              backgroundColor: "transparent",
-              alignItems: "center",
-              marginTop: 40,
-            }}
-          >
-            <Text style={{ color: "#a0aec0" }}>
-              {searchQuery
-                ? "No students found matching your search."
-                : "No students found. Add your first student!"}
-            </Text>
-          </View>
-        }
-      />
-    </View>
+        </View>
+
+        {/* SEARCH BAR SECTION */}
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search students..."
+          placeholderTextColor="#aaaaaa"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+
+        {/* LIST SECTION */}
+        <FlatList
+          data={filteredStudents}
+          keyExtractor={(item) => item.id.toString()}
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+          contentContainerStyle={{ paddingBottom: 40 }}
+          renderItem={({ item }) => (
+            <Pressable
+              style={styles.studentCard}
+              onPress={() =>
+                router.push({
+                  pathname: "/studentInfo",
+                  params: { id: item.id },
+                })
+              }
+            >
+              <View style={{ flex: 1, backgroundColor: "transparent" }}>
+                <Text style={styles.studentName}>{item.full_name}</Text>
+                <Text style={styles.studentSubtitle}>Tap to see classes →</Text>
+              </View>
+            </Pressable>
+          )}
+          ListEmptyComponent={
+            <View
+              style={{
+                backgroundColor: "transparent",
+                alignItems: "center",
+                marginTop: 40,
+              }}
+            >
+              <Text style={{ color: "#aaaaaa" }}>
+                {searchQuery
+                  ? "No students found matching your search."
+                  : "No students found. Add your first student!"}
+              </Text>
+            </View>
+          }
+        />
+      </View>
+    </>
   );
 }

@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   codeHighlightContainer: {
     borderRadius: 3,
     paddingHorizontal: 4,
-    backgroundColor: "#1a274a",
+    backgroundColor: "#1a234a",
   },
   getStartedText: {
     fontSize: 17,

@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { supabase } from "../../backend/supabase";
-import { styles } from "./createclass.styles";
+import { styles } from "../../styles/tabsStyles/createclass.styles";
 
 export default function AddStudentScreen() {
   const [name, setName] = useState("");
@@ -127,7 +127,7 @@ export default function AddStudentScreen() {
         <TextInput
           style={styles.input}
           placeholder="Full Name"
-          placeholderTextColor="#8d9cc5"
+          placeholderTextColor="#aaaaaa"
           value={name}
           onChangeText={setName}
           autoFocus

@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { addClassNote } from "../../backend/calls";
-import { styles } from "./createclass.styles";
+import { styles } from "../../styles/tabsStyles/createclass.styles";
 
 export default function AddClassScreen() {
   const router = useRouter();

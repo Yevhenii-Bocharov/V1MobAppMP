@@ -5,8 +5,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0b122d",
     padding: 20,
+    backgroundColor: "#131314",
   },
   title: {
     fontSize: 28,
@@ -19,21 +19,5 @@ export const styles = StyleSheet.create({
     height: 1,
     width: "80%",
     backgroundColor: "#2f466f",
-  },
-  logoutButton: {
-    backgroundColor: "#ff4444",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  logoutText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
   },
 });

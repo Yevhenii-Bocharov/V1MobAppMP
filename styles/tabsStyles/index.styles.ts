@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0b122d",
-    paddingTop: 50, // Increased for status bar clearance
+    backgroundColor: "#131314",
+    paddingTop: 20, // Increased for status bar clearance
     paddingHorizontal: 20, // Better for list alignment
   },
   headerRow: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     color: "#ffffff",
   },
   addButton: {
-    backgroundColor: "#4a90e2", // A nice blue that pops on dark backgrounds
+    backgroundColor: "#614ae2", // A nice blue that pops on dark backgrounds
     width: 44,
     height: 44,
     borderRadius: 22,
@@ -46,18 +46,11 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
   },
   studentCard: {
-    backgroundColor: "#1a2332",
+    backgroundColor: "#1e1f20",
     borderRadius: 12,
     padding: 20,
     marginVertical: 8,
     width: "100%", // Let it fill the container padding
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    borderWidth: 1,
-    borderColor: "#2f466f", // Subtle border for depth
   },
   studentName: {
     fontSize: 18,
@@ -67,17 +60,15 @@ export const styles = StyleSheet.create({
   },
   studentSubtitle: {
     fontSize: 14,
-    color: "#a0aec0",
+    color: "#aaaaaa",
   },
   searchBar: {
-    backgroundColor: "#1a2332",
+    backgroundColor: "#1e1f20",
     borderRadius: 12,
     paddingHorizontal: 14,
     marginBottom: 16,
     height: 48,
-    borderWidth: 1,
-    borderColor: "#2f466f",
-    color: "#f3f8ff",
+    color: "#ffffff",
     fontSize: 16,
   },
 });

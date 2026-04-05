@@ -1,8 +1,9 @@
+import CustomHeader from "@/components/CustomHeader";
 import { Text, View } from "@/components/Themed";
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import { supabase } from "../../backend/supabase";
-import { styles } from "./two.styles";
+import { styles } from "../../styles/tabsStyles/two.styles";
 
 export default function TabTwoScreen() {
   const router = useRouter();
@@ -19,14 +20,17 @@ export default function TabTwoScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
+    <>
+      <CustomHeader />
+      <View style={styles.container}>
+        <Text style={styles.title}>Settings</Text>
 
-      <View style={styles.separator} />
+        <View style={styles.separator} />
 
-      <Pressable style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Log Out</Text>
-      </Pressable>
-    </View>
+        <Pressable style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutText}>Log Out</Text>
+        </Pressable>
+      </View>
+    </>
   );
 }

@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { deleteStudent, getStudentById } from "../../backend/calls";
-import { styles } from "./studentInfo.styles";
+import { styles } from "../../styles/tabsStyles/studentInfo.styles";
 
 export default function StudentInfoScreen() {
   const router = useRouter();

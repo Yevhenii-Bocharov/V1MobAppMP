@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   // Main Container
   container: {
     flex: 1,
-    backgroundColor: "#0b122d",
+    backgroundColor: "#131314",
     padding: 20,
     paddingTop: 50,
   },
@@ -43,17 +43,10 @@ export const styles = StyleSheet.create({
   // Info Card
   card: {
     width: "100%",
-    backgroundColor: "#111a3a",
+    backgroundColor: "#1e1f20",
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 6,
   },
   title: {
     fontSize: 24,
@@ -64,7 +57,7 @@ export const styles = StyleSheet.create({
 
   // Input & Field Styles
   fieldLabel: {
-    color: "#a8b8d6",
+    color: "#aaaaaa",
     fontSize: 14,
     marginBottom: 6,
     fontWeight: "600",
@@ -149,26 +142,24 @@ export const styles = StyleSheet.create({
   // FlatList & Item Styles
   classCard: {
     width: "100%",
-    backgroundColor: "#162248",
+    backgroundColor: "#1e1f20",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    borderColor: "rgba(255,255,255,0.1)",
-    borderWidth: 1,
   },
   instructorName: {
-    color: "#dce2f5",
+    color: "#ffffff",
     fontSize: 16,
     marginBottom: 4,
     fontWeight: "700",
   },
   commentText: {
-    color: "#b6c2e1",
+    color: "#aaaaaa",
     fontSize: 14,
     marginBottom: 4,
   },
   dateText: {
-    color: "#8fa6d1",
+    color: "#aaaaaa",
     fontSize: 12,
   },
   emptyText: {
